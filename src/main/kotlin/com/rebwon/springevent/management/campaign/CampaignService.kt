@@ -40,6 +40,18 @@ class CampaignService(
     }
 
     @Transactional
+    fun registerCampaignWithAsyncEvent(request: RegisterCampaignRequest) {
+        val campaign = campaignRepository.save(
+            Campaign(
+                name = request.name,
+                type = CampaignType.valueOf(request.campaignType),
+                writer = request.writer
+            )
+        )
+        publisher.publishEvent(RegisteredCampaignAsyncEvent(campaignId = campaign.id!!))
+    }
+
+    @Transactional
     fun registerCampaignWithService(request: RegisterCampaignRequest) {
         val campaign = campaignRepository.save(
             Campaign(

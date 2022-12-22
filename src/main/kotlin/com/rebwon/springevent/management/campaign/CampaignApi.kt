@@ -18,6 +18,14 @@ class CampaignApi(
         return ResponseEntity.ok(null)
     }
 
+    @PostMapping("/campaigns-async-event")
+    fun registerCampaignWithAsyncEvent(
+        @RequestBody request: RegisterCampaignRequest
+    ): ResponseEntity<Any> {
+        service.registerCampaignWithAsyncEvent(request)
+        return ResponseEntity.ok(null)
+    }
+
     @PostMapping("/campaigns-event-same-transaction")
     fun registerCampaignWithEventSameTransaction(
         @RequestBody request: RegisterCampaignRequest

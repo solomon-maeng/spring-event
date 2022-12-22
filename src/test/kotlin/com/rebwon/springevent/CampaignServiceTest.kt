@@ -3,6 +3,7 @@ package com.rebwon.springevent
 import com.rebwon.springevent.management.campaign.CampaignRepository
 import com.rebwon.springevent.management.campaign.CampaignService
 import com.rebwon.springevent.management.campaign.RegisterCampaignRequest
+import com.rebwon.springevent.management.campaign.RegisteredCampaignAsyncEvent
 import com.rebwon.springevent.management.campaign.RegisteredCampaignEvent
 import com.rebwon.springevent.report.campaign.CampaignReportInformationRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -53,6 +54,19 @@ class CampaignServiceTest {
 
         assertThat(campaignEvent).isEqualTo(1)
         assertThat(reportEvent).isEqualTo(1)
+        assertThatSuccessfullySaveCampaignAndCampaignReportInformation()
+    }
+
+    @Test
+    fun `비동기 이벤트로 캠페인과 캠페인 리포트 정보를 생성`() {
+        val request = RegisterCampaignRequest(name = "테스트 캠페인", writer = "김키티", "COSTED")
+
+        service.registerCampaignWithAsyncEvent(request)
+
+        val campaignEvent = recoredEvents.stream(RegisteredCampaignAsyncEvent::class.java).count()
+        // 비동기 이벤트는 reportEvent 감지가 안됨
+
+        assertThat(campaignEvent).isEqualTo(1)
         assertThatSuccessfullySaveCampaignAndCampaignReportInformation()
     }
 

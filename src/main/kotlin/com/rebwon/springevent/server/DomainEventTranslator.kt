@@ -1,5 +1,6 @@
 package com.rebwon.springevent.server
 
+import com.rebwon.springevent.management.campaign.RegisteredCampaignAsyncEvent
 import com.rebwon.springevent.management.campaign.RegisteredCampaignEvent
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.event.EventListener
@@ -19,14 +20,14 @@ class DomainEventTranslator(
 //    }
 
     @EventListener
-    fun handle(event: RegisteredCampaignEvent) {
+    fun handleEvent(event: RegisteredCampaignEvent) {
         publisher.publishEvent(com.rebwon.springevent.report.campaign.RegisteredCampaignEvent(event.campaignId))
     }
 
 
-//    @Async
-//    @TransactionalEventListener
-//    fun handle(event: RegisteredCampaignEvent) {
-//        publisher.publishEvent(com.rebwon.springevent.report.campaign.RegisteredCampaignEvent(event.campaignId))
-//    }
+    @Async
+    @TransactionalEventListener
+    fun handleAsyncEvent(event: RegisteredCampaignAsyncEvent) {
+        publisher.publishEvent(com.rebwon.springevent.report.campaign.RegisteredCampaignAsyncEvent(event.campaignId))
+    }
 }
