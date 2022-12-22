@@ -53,6 +53,7 @@ class CampaignServiceTest {
 
         assertThat(campaignEvent).isEqualTo(1)
         assertThat(reportEvent).isEqualTo(1)
+        assertThatSuccessfullySaveCampaignAndCampaignReportInformation()
     }
 
     @Test
