@@ -24,7 +24,6 @@ class DomainEventTranslator(
         publisher.publishEvent(com.rebwon.springevent.report.campaign.RegisteredCampaignEvent(event.campaignId))
     }
 
-
     @Async
     @TransactionalEventListener
     fun handleAsyncEvent(event: RegisteredCampaignAsyncEvent) {
