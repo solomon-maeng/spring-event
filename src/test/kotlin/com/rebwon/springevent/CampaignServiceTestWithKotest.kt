@@ -8,21 +8,20 @@ import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.TestConstructor
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.event.ApplicationEvents
 import org.springframework.test.context.event.ApplicationEventsTestExecutionListener
 import org.springframework.test.context.event.RecordApplicationEvents
 
 @SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @RecordApplicationEvents
 @TestExecutionListeners(value = [ApplicationEventsTestExecutionListener::class], mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-class CampaignServiceTestWithKotest : StringSpec() {
+class CampaignServiceTestWithKotest(
+    private val service: CampaignService,
+) : StringSpec() {
 
     override fun extensions() = listOf(SpringExtension)
 
-    @Autowired lateinit var service: CampaignService
     @Autowired lateinit var recoredEvents: ApplicationEvents
 
     init {
